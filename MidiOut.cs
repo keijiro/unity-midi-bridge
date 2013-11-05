@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public static class MidiOutput
+public static class MidiOut
 {
     public static void SendNoteOn(int channel, int noteNumber, float velocity)
     {
