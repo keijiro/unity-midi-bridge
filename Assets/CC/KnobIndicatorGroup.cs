@@ -15,7 +15,7 @@ public class KnobIndicatorGroup : MonoBehaviour
 
     void Update ()
     {
-        var channels = MidiInput.KnobChannels;
+        var channels = MidiInput.GetKnobNumbers ();
 
         // If a new chennel was added...
         if (indicators.Count != channels.Length) {
