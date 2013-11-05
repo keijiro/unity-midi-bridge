@@ -4,7 +4,7 @@ using System.Collections.Generic;
 
 public class MidiInput : MonoBehaviour
 {
-    #region Static interface
+    #region Public interface
     // Filter mode IDs.
     public enum Filter
     {
@@ -14,9 +14,9 @@ public class MidiInput : MonoBehaviour
     }
 
     // Returns the key state (on: velocity, off: zero).
-    public static float GetKey (int noteNumber)
+    public static float GetKey (int channel, int noteNumber)
     {
-        var v = instance.notes [noteNumber];
+        var v = instance.channels[channel].notes [noteNumber];
         if (v > 1.0f) {
             return v - 1.0f;
         } else if (v > 0.0) {
@@ -25,41 +25,62 @@ public class MidiInput : MonoBehaviour
             return 0.0f;
         }
     }
+    public static float GetKey (int noteNumber)
+    {
+        return GetKey (16, noteNumber);
+    }
 
-    // Returns true if the key was pressed down in this frame.
+    // Returns true if the key was pressed down in the current frame.
+    public static bool GetKeyDown (int channel, int noteNumber)
+    {
+        return instance.channels[channel].notes [noteNumber] > 1.0f;
+    }
     public static bool GetKeyDown (int noteNumber)
     {
-        return instance.notes [noteNumber] > 1.0f;
+        return GetKeyDown (16, noteNumber);
     }
 
-    // Returns true if the key was released in this frame.
+    // Returns true if the key was released in the current frame.
+    public static bool GetKeyUp (int channel, int noteNumber)
+    {
+        return instance.channels[channel].notes [noteNumber] < 0.0f;
+    }
     public static bool GetKeyUp (int noteNumber)
     {
-        return instance.notes [noteNumber] < 0.0f;
+        return GetKeyUp (16, noteNumber);
     }
-    
-    // Provides the channel list.
-    public static int[] KnobChannels {
-        get {
-            int[] channels = new int[instance.knobs.Count];
-            instance.knobs.Keys.CopyTo (channels, 0);
-            return channels;
-        }
-    }
-    
-    // Get the CC value.
-    public static float GetKnob (int channel, Filter filter = Filter.Realtime)
+
+    // Provides the knob list.
+    public static int[] GetKnobNumbers(int channel)
     {
-        if (instance.knobs.ContainsKey (channel)) {
-            return instance.knobs [channel].filteredValues [(int)filter];
+        var ch = instance.channels [channel];
+        var numbers = new int[ch.knobs.Count];
+        ch.knobs.Keys.CopyTo (numbers, 0);
+        return numbers;
+    }
+    public static int[] GetKnobNumbers()
+    {
+        return GetKnobNumbers (16);
+    }
+
+    // Get the CC (knob) value.
+    public static float GetKnob (int channel, int knobNumber, Filter filter = Filter.Realtime)
+    {
+        var ch = instance.channels [channel];
+        if (ch.knobs.ContainsKey (knobNumber)) {
+            return ch.knobs [knobNumber].filteredValues [(int)filter];
         } else {
             return 0.0f;
         }
     }
+    public static float GetKnob (int knobNumber, Filter filter = Filter.Realtime)
+    {
+        return GetKnob (16, knobNumber, filter);
+    }
     #endregion
 
     #region Internal data structure
-    // CC channel (knob) information.
+    // CC (knob) state.
     class Knob
     {
         public float[] filteredValues;
@@ -82,40 +103,57 @@ public class MidiInput : MonoBehaviour
         }
     }
 
-    // Note state array.
-    // X<0    : Released on this frame.
-    // X=0    : Off.
-    // 0<X<=1 : On. X represents velocity.
-    // 1<X<=2 : Triggered on this frame. (X-1) represents velocity.
-    float[] notes;
+    // Channel status.
+    class Channel
+    {
+        // Note status.
+        // X<0    : Released on this frame.
+        // X=0    : Off.
+        // 0<X<=1 : On. X represents velocity.
+        // 1<X<=2 : Triggered on this frame. (X-1) represents velocity.
+        public float[] notes;
+        
+        // Knob number to knob mapping.
+        public Dictionary<int, Knob> knobs;
 
-    // Channel number to knob mapping.
-    Dictionary<int, Knob> knobs;
+        public Channel ()
+        {
+            notes = new float[128];
+            knobs = new Dictionary<int, Knob> ();
+        }
+    }
+
+    // Channel list (0ch-15ch and 16=All)
+    Channel[] channels;
     #endregion
-
+    
     #region Public properties
     public float sensibilityFast = 20.0f;
-    public float sensibilitySlow = 8.0f;
+    public float sensibilitySlow = 5.0f;
     #endregion
 
     #region Monobehaviour functions
     void Awake ()
     {
-        notes = new float[128];
-        knobs = new Dictionary<int, Knob> ();
+        channels = new Channel[17];
+        for (var i = 0; i < 17; i++) {
+            channels[i] = new Channel();
+        }
     }
 
     void Update ()
     {
         // Update the note state array.
-        for (var i = 0; i < 128; i++) {
-            var x = notes [i];
-            if (x > 1.0f) {
-                // Key down -> Hold.
-                notes [i] = x - 1.0f;
-            } else if (x < 0) {
-                // Key up -> Off.
-                notes [i] = 0.0f;
+        foreach (var ch in channels) {
+            for (var i = 0; i < 128; i++) {
+                var x = ch.notes [i];
+                if (x > 1.0f) {
+                    // Key down -> Hold.
+                    ch.notes [i] = x - 1.0f;
+                } else if (x < 0) {
+                    // Key up -> Off.
+                    ch.notes [i] = 0.0f;
+                }
             }
         }
 
@@ -124,35 +162,51 @@ public class MidiInput : MonoBehaviour
         var slowFilterCoeff = Mathf.Exp (-sensibilitySlow * Time.deltaTime);
 
         // Update the filtered value.
-        foreach (var k in knobs.Values) {
-            k.UpdateFilter (fastFilterCoeff, slowFilterCoeff);
+        foreach (var ch in channels) {
+            foreach (var k in ch.knobs.Values) {
+                k.UpdateFilter (fastFilterCoeff, slowFilterCoeff);
+            }
         }
 
         // Process the message queue.
         while (MidiBridge.instance.incomingMessageQueue.Count > 0) {
             // Pop from the queue.
-            var message = MidiBridge.instance.incomingMessageQueue.Dequeue();
+            var message = MidiBridge.instance.incomingMessageQueue.Dequeue ();
+
+            // Split the first byte.
+            var b1hi = message.status >> 4;
+            var b1lo = message.status & 0xf;
 
             // Note on message?
-            if (message.status == 0x90) {
-                notes [message.data1] = 1.0f / 127 * message.data2 + 1.0f;
+            if (b1hi == 9) {
+                var velocity = 1.0f / 127 * message.data2 + 1.0f;
+                channels [b1lo].notes [message.data1] = velocity;
+                channels [16].notes [message.data1] = velocity;
             }
 
             // Note off message?
-            if (message.status == 0x80 || (message.status == 0x90 && message.data2 == 0)) {
-                notes [message.data1] = -1.0f;
+            if (b1hi == 8 || (b1hi == 9 && message.data2 == 0)) {
+                channels [b1lo].notes [message.data1] = -1.0f;
+                channels [16].notes [message.data1] = -1.0f;
             }
 
             // CC message?
-            if (message.status == 0xb0) {
+            if (b1hi == 0xb) {
                 // Normalize the value.
                 var value = 1.0f / 127 * message.data2;
 
                 // Update the channel if it already exists, or add a new channel.
-                if (knobs.ContainsKey (message.data1)) {
-                    knobs [message.data1].Update (value);
+                if (channels [b1lo].knobs.ContainsKey (message.data1)) {
+                    channels [b1lo].knobs [message.data1].Update (value);
                 } else {
-                    knobs [message.data1] = new Knob (value);
+                    channels [b1lo].knobs [message.data1] = new Knob (value);
+                }
+
+                // Do again for All-ch.
+                if (channels [16].knobs.ContainsKey (message.data1)) {
+                    channels [16].knobs [message.data1].Update (value);
+                } else {
+                    channels [16].knobs [message.data1] = new Knob (value);
                 }
             }
         }
@@ -162,13 +216,12 @@ public class MidiInput : MonoBehaviour
     #region Singleton class interface
     static MidiInput _instance;
 
-    public static MidiInput instance
-    {
+    public static MidiInput instance {
         get {
             if (_instance == null) {
-                var go = new GameObject("__MidiInput");
-                _instance = go.AddComponent<MidiInput>();
-                DontDestroyOnLoad(go);
+                var go = new GameObject ("__MidiInput");
+                _instance = go.AddComponent<MidiInput> ();
+                DontDestroyOnLoad (go);
                 go.hideFlags = HideFlags.HideInHierarchy;
             }
             return _instance;
