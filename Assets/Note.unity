@@ -192,3 +192,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   prefab: {fileID: 100000, guid: e9606907c0bef44d2939e5b913d0f2d5, type: 2}
+  channel: 16

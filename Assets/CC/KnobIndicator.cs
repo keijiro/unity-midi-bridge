@@ -6,15 +6,16 @@ public class KnobIndicator : MonoBehaviour
     public static MidiInput.Filter filter = MidiInput.Filter.Realtime;
 
     public int channel;
+    public int knobNumber;
 
     void Start ()
     {
-        GetComponentInChildren<TextMesh> ().text = "CC:" + channel;
+        GetComponentInChildren<TextMesh> ().text = "CC:" + knobNumber;
     }
 
     void Update ()
     {
-        var input = MidiInput.GetKnob (channel, filter);
+        var input = MidiInput.GetKnob (channel, knobNumber, filter);
 
         var position = transform.localPosition;
         position.y = (input - 0.5f) * 10.0f;
