@@ -6,7 +6,8 @@ public class KnobIndicatorGroup : MonoBehaviour
     public GameObject prefab;
     public GUIStyle labelStyle;
     public MidiChannel channel = MidiChannel.All;
-
+	public float sensibility = 20.0f;
+	
     List<KnobIndicator> indicators;
 
     void Start ()
@@ -32,16 +33,6 @@ public class KnobIndicatorGroup : MonoBehaviour
             indicators.Add (indicator);
         }
 
-        // Change the filter mode on a mouse click.
-        if (Input.GetMouseButtonDown (0)) {
-            KnobIndicator.filter = (MidiInput.Filter)(((int)KnobIndicator.filter + 1) % 3);
-        }
-    }
-
-    void OnGUI ()
-    {
-        var text = "Click the screen to change the filter mode.\n";
-        text += "Current mode: " + KnobIndicator.filter;
-        GUI.Label (new Rect (0, 0, Screen.width, Screen.height), text, labelStyle);
+		MidiInput.knobSensibility = sensibility;
     }
 }
