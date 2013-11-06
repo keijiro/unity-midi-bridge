@@ -49,17 +49,8 @@ public class MidiInput : MonoBehaviour
 {
     #region Public interface
 
-    // Filter mode.
-    public enum Filter
-    {
-        Realtime,
-        Fast,
-        Slow
-    }
-
-    // Knob filter coefficients.
-    public float sensibilityFast = 20.0f;
-    public float sensibilitySlow = 5.0f;
+    // Knob filter coefficient.
+    public static float knobSensibility = 20.0f;
 
     // Returns the key state (on: velocity, off: zero).
     public static float GetKey (MidiChannel channel, int noteNumber)
@@ -116,19 +107,19 @@ public class MidiInput : MonoBehaviour
     }
 
     // Get the CC (knob) value.
-    public static float GetKnob (MidiChannel channel, int knobNumber, Filter filter = Filter.Realtime)
+    public static float GetKnob (MidiChannel channel, int knobNumber)
     {
         var cs = instance.channelArray [(int)channel];
         if (cs.knobMap.ContainsKey (knobNumber)) {
-            return cs.knobMap [knobNumber].filteredValues [(int)filter];
+            return cs.knobMap [knobNumber].filteredValue;
         } else {
             return 0.0f;
         }
     }
 
-    public static float GetKnob (int knobNumber, Filter filter = Filter.Realtime)
+    public static float GetKnob (int knobNumber)
     {
-        return GetKnob (MidiChannel.All, knobNumber, filter);
+        return GetKnob (MidiChannel.All, knobNumber);
     }
 
     #endregion
@@ -138,23 +129,26 @@ public class MidiInput : MonoBehaviour
     // CC (knob) state.
     class KnobState
     {
-        public float[] filteredValues;
+		public float realtimeValue;
+        public float filteredValue;
 
         public KnobState (float initial)
         {
-            filteredValues = new float[3];
-            filteredValues [0] = filteredValues [1] = filteredValues [2] = initial;
+			realtimeValue = filteredValue = initial;
         }
 
         public void Update (float value)
         {
-            filteredValues [0] = value;
+			realtimeValue = value;
         }
 
-        public void UpdateFilter (float fastFilterCoeff, float slowFilterCoeff)
+        public void UpdateFilter (float filterCoeff)
         {
-            filteredValues [1] = filteredValues [0] - (filteredValues [0] - filteredValues [1]) * fastFilterCoeff;
-            filteredValues [2] = filteredValues [0] - (filteredValues [0] - filteredValues [2]) * slowFilterCoeff;
+			if (filterCoeff == 0.0f) {
+				filteredValue = realtimeValue;
+			} else {
+				filteredValue = realtimeValue - (realtimeValue - filteredValue) * filterCoeff;
+			}
         }
     }
 
@@ -209,14 +203,13 @@ public class MidiInput : MonoBehaviour
             }
         }
 
-        // Calculate the filter coefficients.
-        var fastFilterCoeff = Mathf.Exp (-sensibilityFast * Time.deltaTime);
-        var slowFilterCoeff = Mathf.Exp (-sensibilitySlow * Time.deltaTime);
+        // Calculate the filter coefficient.
+        var filterCoeff = (knobSensibility > 0.0f) ? Mathf.Exp (-knobSensibility * Time.deltaTime) : 0.0f;
 
         // Update the filtered value.
         foreach (var cs in channelArray) {
             foreach (var k in cs.knobMap.Values) {
-                k.UpdateFilter (fastFilterCoeff, slowFilterCoeff);
+                k.UpdateFilter (filterCoeff);
             }
         }
 
