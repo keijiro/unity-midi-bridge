@@ -3,7 +3,7 @@ using System.Collections;
 
 public class NoteIndicator : MonoBehaviour
 {
-    public int channel = 16;
+    public MidiChannel channel = MidiChannel.All;
     public int noteNumber;
 
     void Update ()

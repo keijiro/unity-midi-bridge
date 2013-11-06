@@ -5,7 +5,7 @@ public class KnobIndicator : MonoBehaviour
 {
     public static MidiInput.Filter filter = MidiInput.Filter.Realtime;
 
-    public int channel;
+    public MidiChannel channel = MidiChannel.All;
     public int knobNumber;
 
     void Start ()

@@ -3,25 +3,29 @@ using System.Collections;
 
 public class NoteTrigger : MonoBehaviour
 {
-    public int noteNumber;
-    public float velocity;
-    public float delay;
-    public float interval;
+    public MidiChannel channel = MidiChannel.Ch1;
+    public int noteNumber = 48;
+    public float velocity = 0.9f;
+    public float delay = 2.0f;
+    public float length = 0.1f;
+    public float interval = 1.0f;
 
     float scale;
 
     IEnumerator Start ()
     {
-        yield return new WaitForSeconds (2.0f);
+        MidiBridge.instance.Warmup();
 
         if (delay > 0.0f) {
             yield return new WaitForSeconds (delay);
         }
+
         while (true) {
-            MidiOut.SendNoteOn(0, noteNumber, velocity);
+            MidiOut.SendNoteOn (channel, noteNumber, velocity);
             scale = 2.0f;
-            yield return new WaitForSeconds (interval);
-            MidiOut.SendNoteOff(0, noteNumber);
+            yield return new WaitForSeconds (length);
+            MidiOut.SendNoteOff (channel, noteNumber);
+            yield return new WaitForSeconds (interval - length);
         }
     }
 

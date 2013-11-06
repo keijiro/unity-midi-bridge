@@ -182,9 +182,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c12f8ba5a3b944c9bbc7d2da14a237c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noteNumber: 37
-  velocity: 100
-  delay: .25
+  channel: 0
+  noteNumber: 50
+  velocity: .899999976
+  delay: 2.25
+  length: .100000001
   interval: 1
 --- !u!23 &194976783
 Renderer:
@@ -251,9 +253,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c12f8ba5a3b944c9bbc7d2da14a237c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noteNumber: 37
-  velocity: 100
-  delay: .75
+  channel: 0
+  noteNumber: 53
+  velocity: .899999976
+  delay: 2.75
+  length: .100000001
   interval: 1
 --- !u!23 &627767118
 Renderer:
@@ -320,9 +324,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c12f8ba5a3b944c9bbc7d2da14a237c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noteNumber: 37
-  velocity: 100
-  delay: .5
+  channel: 0
+  noteNumber: 52
+  velocity: .899999976
+  delay: 2.5
+  length: .100000001
   interval: 1
 --- !u!23 &1278638866
 Renderer:
@@ -389,9 +395,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c12f8ba5a3b944c9bbc7d2da14a237c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  noteNumber: 37
-  velocity: 100
-  delay: 0
+  channel: 0
+  noteNumber: 48
+  velocity: .899999976
+  delay: 2
+  length: .100000001
   interval: 1
 --- !u!23 &2146101669
 Renderer:

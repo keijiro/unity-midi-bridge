@@ -4,7 +4,7 @@ using System.Collections;
 public class NoteIndicatorGroup : MonoBehaviour
 {
     public GameObject prefab;
-    public int channel;
+    public MidiChannel channel;
 
     void Start ()
     {

@@ -5,7 +5,7 @@ public class KnobIndicatorGroup : MonoBehaviour
 {
     public GameObject prefab;
     public GUIStyle labelStyle;
-    public int channel = 16;
+    public MidiChannel channel = MidiChannel.All;
 
     List<KnobIndicator> indicators;
 
