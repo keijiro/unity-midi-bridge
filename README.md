@@ -15,18 +15,20 @@ System Requirements
 Setting up
 ----------
 
-#### Importing C# files into your project
+#### Importing C# files
 
 Drag and drop the .cs files (MidiBridge.cs, MidiInput.cs and MidiOut.cs) into the
 project view.
 
-#### Launch Bridge
+#### Launching Bridge
 
 Extract the archive file (midi-bridge-osx.zip or midi-bridge-windows.zip) and
 run the bridge software in it.
 
 MIDI Bridge for Mac OS X
 ------------------------
+
+![screenshot](http://keijiro.github.io/unity-midi-bridge/bridge-screenshot-osx.png)
 
 **MIDI Bridge for Mac OS X** is a kind of menu bar app. It relays MIDI messages
 between Unity and external MIDI devices.
@@ -41,6 +43,8 @@ sent from Unity are delivered to the device.
 
 MIDI Bridge for Windows
 -----------------------
+
+![screenshot](http://keijiro.github.io/unity-midi-bridge/bridge-screenshot-windows.png)
 
 **MIDI Bridge for Windows** (MidiBridge.exe) is a command line application to relay
 MIDI messages between Unity and external MIDI devices.
