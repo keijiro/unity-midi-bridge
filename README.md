@@ -2,28 +2,28 @@ Unity MIDI Bridge
 =================
 
 **Unity MIDI Bridge** is a plug-in for Unity that provides APIs for communicating
-with MIDI devices. It uses external bridge software to communicate with the devices,
+with MIDI devices. It uses external bridge application to communicate with the devices,
 and runs without any native code plug-in. Therefore you can use this plug-in without
 Unity Pro license.
 
 System Requirements
 -------------------
 
-- Unity 4
-- Windows or Mac OS X
+- Unity 4 (Basic or Pro)
+- This plug-in runs only on the desktop platforms (Windows or Mac OS X).
 
 Setting up
 ----------
 
 #### Importing C# files
 
-Drag and drop the .cs files (MidiBridge.cs, MidiInput.cs and MidiOut.cs) into the
-project view.
+Import the .cs files (MidiBridge.cs, MidiInput.cs and MidiOut.cs). Simply drag and
+drop these files into the project view on Unity.
 
 #### Launching Bridge
 
 Extract the archive file (midi-bridge-osx.zip or midi-bridge-windows.zip) and
-run the bridge software in it.
+run the bridge application in it.
 
 MIDI Bridge for Mac OS X
 ------------------------
@@ -33,13 +33,13 @@ MIDI Bridge for Mac OS X
 **MIDI Bridge for Mac OS X** is a kind of menu bar app. It relays MIDI messages
 between Unity and external MIDI devices.
 
-Simply run "MIDI Bridge" and it appears as a status menu item on the top-right
-corder of the display. You can click the icon and it shows the device list and
-Log Viewer.
+Simply run "MIDI Bridge" and then it appears as a status menu item on the top-right
+corder of the screen. You can click the icon and it shows the application menu. It
+show the device list available at the moment, and provides some other functionality.
 
-You can click the one of the destination device and put a check mark on it.
-And then Bridge uses that device as a **default MIDI-out device**. MIDI messages
-sent from Unity are delivered to the device.
+In the MIDI destination list, you can select a device to use as the destination of
+MIDI output. To make this you need to click one of the items in the list. It shows
+the destination device with a check-mark on it.
 
 MIDI Bridge for Windows
 -----------------------
@@ -49,14 +49,14 @@ MIDI Bridge for Windows
 **MIDI Bridge for Windows** (MidiBridge.exe) is a command line application to relay
 MIDI messages between Unity and external MIDI devices.
 
-Basically, what you have to do is just run the application. There are few points
+Basically, what you need to do is just run the application. There are few points
 you have to take care.
 
-- Every time you change the configuration (plug new MIDI devices or disconnect
-  devices from the computer), you have to restart MidiBridge.exe.
-- MidiBridge.exe opens all MIDI-in devices available when it was launched. It
-  might conflict with other MIDI capable applications.
-- MidiBridge.exe sends MIDI messages to all MIDI-out devices available.
+- Every time you change the configuration (plug new MIDI devices, disconnect
+  devices from the computer, etc.), it have to be restarted.
+- MidiBridge captures all MIDI-in devices available when it was launched. It might
+  conflict with other MIDI-capable applications.
+- MidiBridge sends MIDI messages from Unity to the all MIDI-out devices available.
 
 License
 -------
