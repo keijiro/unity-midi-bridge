@@ -25,6 +25,35 @@ drop these files into the project view on Unity.
 Extract the archive file (midi-bridge-osx.zip or midi-bridge-windows.zip) and
 run the bridge application in it.
 
+Scripting Reference
+-------------------
+
+### MidiInput class
+
+You can omit *channel* in these methods. In this case it returns the union of the
+all channels.
+
+#### GetKey (channel, noteNumber)
+
+Returns the state of the key. If the key is pressed, it returns the velocity value
+(more than zero, up to 1.0f). If the key is not pressed, it returns the zero.
+
+#### GetKeyDown (channel, noteNumber)
+
+Returns true only if the key was pressed down in the current frame.
+
+#### GetKeyUp (channel, noteNumber)
+
+Returns true only if the key was released in the current frame.
+
+#### GetKnob (channel, knobNumber)
+
+Returns the current knob (CC) value.
+
+#### GetKnobNumbers (channel)
+
+Provides the list of knob (CC) numbers that has sent CC messages to the host.
+
 MIDI Bridge for Mac OS X
 ------------------------
 
