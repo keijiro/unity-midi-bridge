@@ -25,6 +25,20 @@ project view.
 Extract the archive file (midi-bridge-osx.zip or midi-bridge-windows.zip) and
 run the bridge software in it.
 
+MIDI Bridge for Mac OS X
+------------------------
+
+**MIDI Bridge for Mac OS X** is a kind of menu bar app. It relays MIDI messages
+between Unity and external MIDI devices.
+
+Simply run "MIDI Bridge" and it appears as a status menu item on the top-right
+corder of the display. You can click the icon and it shows the device list and
+Log Viewer.
+
+You can click the one of the destination device and put a check mark on it.
+And then Bridge uses that device as a **default MIDI-out device**. MIDI messages
+sent from Unity are delivered to the device.
+
 MIDI Bridge for Windows
 -----------------------
 
