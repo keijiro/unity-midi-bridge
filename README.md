@@ -48,11 +48,27 @@ Returns true only if the key was released in the current frame.
 
 #### GetKnob (channel, knobNumber)
 
-Returns the current knob (CC) value.
+Returns the current knob (CC) value. The value is between 0.0f and 1.0f.
 
 #### GetKnobNumbers (channel)
 
 Provides the list of knob (CC) numbers that has sent CC messages to the host.
+
+### MidiOut class
+
+#### SendNoteOn (channel, noteNumber, velocity)
+
+Sends a note-on message to the specified channel with a note number and a velocity.
+The velocity value must be more than zero and up to 1.0f.
+
+#### SendNoteOff (channel, noteNumber)
+
+Sends a note-off message to the specified channel with a note number.
+
+#### SendControlChange (channel, controllerNumber, value)
+
+Sends a control-change (CC) message to the specified channel with a controller number.
+The value must be between 0.0f and 1.0f.
 
 MIDI Bridge for Mac OS X
 ------------------------
