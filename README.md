@@ -12,6 +12,13 @@ System Requirements
 - Unity 4 (Basic or Pro)
 - This plug-in runs only on the desktop platforms (Windows or Mac OS X).
 
+Sample Projects
+---------------
+
+There are some sample projects in the [test branch]
+(https://github.com/keijiro/unity-midi-bridge/tree/test).
+You can see the detailed usage of the plug-in in it.
+
 Setting up
 ----------
 
