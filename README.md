@@ -1,9 +1,44 @@
 Unity MIDI Bridge
 =================
 
-**Unity MIDI Bridge** is a plug-in for Unity that provides APIs for communicating with MIDI devices.
-It uses external bridge software to communicate with the devices, and runs without any native code
-plug-in. Therefore you can use this plug-in without Pro license.
+**Unity MIDI Bridge** is a plug-in for Unity that provides APIs for communicating
+with MIDI devices. It uses external bridge software to communicate with the devices,
+and runs without any native code plug-in. Therefore you can use this plug-in without
+Unity Pro license.
+
+System Requirements
+-------------------
+
+- Unity 4
+- Windows or Mac OS X
+
+Setting up
+----------
+
+#### Importing C# files into your project
+
+Drag and drop the .cs files (MidiBridge.cs, MidiInput.cs and MidiOut.cs) into the
+project view.
+
+#### Launch Bridge
+
+Extract the archive file (midi-bridge-osx.zip or midi-bridge-windows.zip) and
+run the bridge software in it.
+
+MIDI Bridge for Windows
+-----------------------
+
+**MIDI Bridge for Windows** (MidiBridge.exe) is a command line application to relay
+MIDI messages between Unity and external MIDI devices.
+
+Basically, what you have to do is just run the application. There are few points
+you have to take care.
+
+- Every time you change the configuration (plug new MIDI devices or disconnect
+  devices from the computer), you have to restart MidiBridge.exe.
+- MidiBridge.exe opens all MIDI-in devices available when it was launched. It
+  might conflict with other MIDI capable applications.
+- MidiBridge.exe sends MIDI messages to all MIDI-out devices available.
 
 License
 -------
