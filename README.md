@@ -30,7 +30,7 @@ can simply drag and drop these files into the project view on Unity.
 ### Launching Bridge
 
 Extract the archive file (midi-bridge-osx.zip or midi-bridge-windows.zip) and
-run "MIDI Bridge" software in it.
+run "MIDI Bridge" which is in it.
 
 Scripting Reference: MidiInput
 ------------------------------
