@@ -22,12 +22,12 @@ demonstrate functionalities and features of the plug-in.
 Setting up
 ----------
 
-### Importing C# files
+#### Importing C# files
 
 Import the C# source files (MidiBridge.cs, MidiInput.cs and MidiOut.cs). You
 can simply drag and drop these files into the project view on Unity.
 
-### Launching Bridge
+#### Launching Bridge
 
 Extract the archive file (midi-bridge-osx.zip or midi-bridge-windows.zip) and
 run "MIDI Bridge" which is in it.
@@ -38,40 +38,40 @@ Scripting Reference: MidiInput
 You can omit *channel* arguments from these methods. In this case it returns
 the union of the all channels.
 
-### GetKey (channel, noteNumber)
+#### GetKey (channel, noteNumber)
 
 Returns the state of the key. If the key is "on", it returns the velocity value
 (more than zero, up to 1.0f). If the key is "off", it returns zero.
 
-### GetKeyDown (channel, noteNumber)
+#### GetKeyDown (channel, noteNumber)
 
 Returns true only if the key was pressed down in the current frame.
 
-### GetKeyUp (channel, noteNumber)
+#### GetKeyUp (channel, noteNumber)
 
 Returns true only if the key was released in the current frame.
 
-### GetKnob (channel, knobNumber)
+#### GetKnob (channel, knobNumber)
 
 Returns the current knob (CC) value which will be between 0.0f and 1.0f.
 
-### GetKnobNumbers (channel)
+#### GetKnobNumbers (channel)
 
 Provides the list of knob (CC) numbers that has sent any CC messages.
 
 Scripting Reference: MidiOut
 ----------------------------
 
-### SendNoteOn (channel, noteNumber, velocity)
+#### SendNoteOn (channel, noteNumber, velocity)
 
 Sends a note-on message to the specified channel with a note number and a
 velocity value. The velocity value must be more than zero and up to 1.0f.
 
-### SendNoteOff (channel, noteNumber)
+#### SendNoteOff (channel, noteNumber)
 
 Sends a note-off message to the specified channel with a note number.
 
-### SendControlChange (channel, controllerNumber, value)
+#### SendControlChange (channel, controllerNumber, value)
 
 Sends a control-change (CC) message to the specified channel with a controller
 number. The value must be between 0.0f and 1.0f.
