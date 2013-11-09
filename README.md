@@ -112,6 +112,14 @@ you have to take care.
   the devices before launching MidiBridge.
 - It sends outgoing messages to the all MIDI-out devices.
 
+Related Projects
+----------------
+
+- [github.com/keijiro/midi-bridge-osx]
+  (https://github.com/keijiro/midi-bridge-osx) - MIDI Bridge for OS X
+- [github.com/keijiro/midi-bridge-windows]
+  (https://github.com/keijiro/midi-bridge-windows) - MIDI Bridge for Windows
+
 License
 -------
 
