@@ -97,20 +97,42 @@ MIDI Bridge for Windows
 -----------------------
 
 ![screenshot]
-(http://keijiro.github.io/unity-midi-bridge/bridge-screenshot-windows.png)
+(http://keijiro.github.io/unity-midi-bridge/bridge-screenshot-windows1.png)
 
 **MIDI Bridge for Windows** (MidiBridge.exe) is a command line application to
 relay MIDI messages between Unity and MIDI devices.
 
-Basically, what you need to do is just run the application. There are few points
-you have to take care.
+Basically, what you need to do is just run the application. It captures the all
+MIDI devices available on the launch and shows the list of these devices.
 
-- Every time you change the configuration (plug a new MIDI devices disconnect
-  a device from the computer, etc.), it have to be restarted.
-- It captures all MIDI-in devices available for it. If you want to reserve some
-  devices for other applications, you have to run the applications and capture
-  the devices before launching MidiBridge.
-- It sends outgoing messages to the all MIDI-out devices.
+There are few points you have to take care.
+
+- Every time you change the configuration (plug a new MIDI device, disconnect
+  a device from the computer, etc.), it have to be restarted. You can restart
+  the bridge internally by pressing down the enter key, or simply close and
+  relaunch the application.
+- Sometimes you may want to free a MIDI device to share it with other
+  applications. In this case you have to use the **interactive mode** (see
+  below), or run the application before launching MidiBridge and capture the
+  device in advance.
+- It sends outgoing messages to the all active output devices.
+
+#### Interactive Mode
+
+![screenshot]
+(http://keijiro.github.io/unity-midi-bridge/bridge-screenshot-windows2.png)
+
+You can run MidiBridge in the **interactive mode** by giving "/i" or "-i"
+option. In this mode you can control MidiBridge at runtime from the console.
+
+There are few commands you can use in this mode. You can input these commands
+entirely or just the first character of the command.
+
+- ID - activates/deactivates the specified device.
+- scan - rescans and shows the all devices.
+- reset - resets and recaptures the all devices.
+- log - pops up the log viewer. Press the enter key to return to the command line.
+- quit - terminates the bridge.
 
 Related Projects
 ----------------
